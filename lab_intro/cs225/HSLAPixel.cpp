@@ -15,7 +15,6 @@ namespace cs225 {
 
     cs225::HSLAPixel::HSLAPixel(){
         
-	s = 0.0;
 	l = 1.0;
         a = 1.0;
     }

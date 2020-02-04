@@ -62,8 +62,15 @@ PNG grayscale(PNG image) {
  */
 PNG createSpotlight(PNG image, int centerX, int centerY) {
 
-  return image;
-  
+	for(unsigned int x = 0; x < image.width(); x++) {
+		for(unsigned int y = 0; y < image.height(); y++) {
+			HSLAPixel &pixel = image.getPixel(x, y);
+			double dis = std::sqrt(std::pow((x - centerX),2) + std::pow((y - centerY),2));
+			pixel.l = (dis < 160) ? pixel.l*(1-dis*0.005) : pixel.l*0.2;
+		}
+	}
+
+	return image;
 }
  
 
@@ -79,9 +86,24 @@ PNG createSpotlight(PNG image, int centerX, int centerY) {
 **/
 PNG illinify(PNG image) {
 
-  return image;
+        for(unsigned int x = 0; x < image.width(); x++){
+		for(unsigned int y = 0; y < image.height(); y++) {
+			HSLAPixel &pixel = image.getPixel(x, y);
+			pixel.h = closeToOrg(pixel.h) ? 11 : 216;
+		}
+	}	
+
+	return image;
 }
- 
+
+bool closeToOrg(double degree){
+	int orange = (int)std::abs(degree - 11) % 360;
+	int blue = (int)std::abs(degree - 216) % 360;
+        int disO = orange > 180 ? (360 - orange) : orange;
+	int disB = blue > 180 ? (360 - blue) : blue;
+	return disO > disB; 
+}
+
 
 /**
 * Returns an immge that has been watermarked by another image.
@@ -97,5 +119,14 @@ PNG illinify(PNG image) {
 */
 PNG watermark(PNG firstImage, PNG secondImage) {
 
-  return firstImage;
+	for(unsigned int x = 0; x < firstImage.width(); x++) {
+		for(unsigned int y = 0; y < firstImage.height(); y++) {
+			HSLAPixel &pixel2 = secondImage.getPixel(x, y);
+			if(pixel2.l == 1){
+				HSLAPixel &pixel1 = firstImage.getPixel(x, y);
+				pixel1.l = ((pixel1.l + 0.2) > 1)? 1 : (pixel1.l + 0.2);
+			}
+		}
+	}	
+	return firstImage;
 }
