@@ -13,7 +13,7 @@
 
 using cs225::HSLAPixel;
 using cs225::PNG;
-
+using namespace std;
 /**
  * Returns an image that has been transformed to grayscale.
  *
@@ -65,8 +65,11 @@ PNG createSpotlight(PNG image, int centerX, int centerY) {
 	for(unsigned int x = 0; x < image.width(); x++) {
 		for(unsigned int y = 0; y < image.height(); y++) {
 			HSLAPixel &pixel = image.getPixel(x, y);
-			double dis = std::sqrt(std::pow((x - centerX),2) + std::pow((y - centerY),2));
-			pixel.l = (dis < 160) ? pixel.l*(1-dis*0.005) : pixel.l*0.2;
+			int xd = centerX - x;
+			int yd = centerY - y;
+			double dis = pow(xd,2) + pow(yd,2);
+			dis = sqrt(dis);
+			pixel.l = (dis < 160) ? (pixel.l*(1-dis*0.005)) : (pixel.l*0.2);
 		}
 	}
 
@@ -97,11 +100,11 @@ PNG illinify(PNG image) {
 }
 
 bool closeToOrg(double degree){
-	int orange = (int)std::abs(degree - 11) % 360;
-	int blue = (int)std::abs(degree - 216) % 360;
+	int orange = (int)abs(degree - 11) % 360;
+	int blue = (int)abs(degree - 216) % 360;
         int disO = orange > 180 ? (360 - orange) : orange;
 	int disB = blue > 180 ? (360 - blue) : blue;
-	return disO > disB; 
+	return disO < disB; 
 }
 
 
