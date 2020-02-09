@@ -115,7 +115,7 @@ namespace fileio
         size_t start = 0;
         size_t end;
         for (end = str.find(delim); end != std::string::npos;
-             end = str.find(delim, start)) {
+             end = str.find(delim, start)) { 
             args.push_back(str.substr(start, end - start));
             start = end + 1;
         }

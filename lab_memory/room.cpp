@@ -60,18 +60,21 @@ void Room::print(std::ostream & stream /* = std::cout */)
 }
 
 void Room::clear()
-{
-    if (letters != NULL)
-
-        delete letters;
+{ 
+    delete[] letters;
+    letters = NULL; 
 }
 
 void Room::copy(const Room& other)
-{
+{   
+   
     name = other.name;
     capacity = other.capacity;
     count = other.count;
+    max_letters = 26;
     letterCount = other.letterCount;
-    letters = other.letters;
-
-}
+    letters = new Letter[letterCount];
+    for(int i  = 0; i < letterCount; i++) {
+        letters[i] = other.letters[i];
+    }
+} 

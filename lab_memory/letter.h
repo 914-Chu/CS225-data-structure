@@ -25,7 +25,12 @@ class Letter
      * The letter should be set by the client.
      */
     Letter();
-
+    
+    /**
+     * Destructor
+     **/
+     ~Letter(){};
+    
     /**
      * Adds one additional student to the letter group.
      */
