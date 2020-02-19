@@ -4,6 +4,21 @@
 using namespace std;
 using namespace cs225;
 
+Image::Image(){
+	x = 0;
+	y = 0;
+}
+
+Image::Image(unsigned width_, unsigned height_):PNG(width_, height_){
+	x = 0;
+	y = 0;
+}
+
+Image::Image(const Image& other): PNG(other){
+	x = 0;
+	y = 0;
+}
+
 void Image::darken(){
 	for(unsigned int x = 0; x < width(); x++) {
 		for(unsigned int y = 0; y < height(); y++) {
@@ -125,35 +140,36 @@ void Image::saturate(double amount) {
 }
 
 void Image::scale(double factor) {
-	unsigned int nW = (unsigned int)(width()*factor);
-	unsigned int nH = (unsigned int)(height()*factor);
-	resize(nW, nH); 
-       /*	HSLAPixel* newImageData = new HSLAPixel[nW * nH];
-	if(factor == 2.0){
-		for(unsigned int x = 0; x < nW/2; x+=2){
-			for(unsigned int y = 0; y < nH/2; y+=2) {
-				HSLAPixel& old = getPixel(x/2, y/2);
-				newImageData[x] = old; 
-				newImageData[x+1] = old;
-				newImageData[x+(y*nW)] = old;
-			 	newImageDAta[x+(y*nW)+1] = old;
-			}	
+	unsigned int nW = width()*factor;
+	unsigned int nH = height()*factor;
+	PNG org(*this);
+
+        resize(nW,nH);
+	for(unsigned int x = 0; x < width(); x++) {
+		for(unsigned int y = 0; y < height(); y++) {
+			HSLAPixel& orgp = org.getPixel(x / factor, y / factor);
+			HSLAPixel& p = getPixel(x,y);
+			p = orgp;
 		}
-	}else if(factor == 0.5) {
-		for(unsigned int x = 0; x < nW; x++){
-			for(unsigned int y = 0; y < nH; y++) {
-				HSLAPixel& old = getPixel(x*2, y*2);
-				newImageData[x] = old;
-				
-			}
-		}
-	}*/
+	}  
 }
 
 void Image::scale(unsigned w, unsigned h) {
-	unsigned int factor = (w >= h) ? width()/w : height()/h;
-	unsigned int nW = (unsigned int)width()*factor;
-	unsigned int nH = (unsigned int)height()*factor;
-	resize(nW, nH);
+	double wf = (double)w/width();
+	double hf = (double)h/height();
+	double f = fmin(wf, hf);
+	scale(f);	
 }
 
+void Image::setCor(unsigned x, unsigned y) {
+	this->x = x;
+	this->y = y;
+}
+
+unsigned Image::getX() {
+	return x;
+}
+
+unsigned Image::getY() {
+	return y;
+}

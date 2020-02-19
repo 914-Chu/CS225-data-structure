@@ -1,4 +1,3 @@
-/**
 #include "../cs225/catch/catch.hpp"
 #include "../Image.h"
 #include "../StickerSheet.h"
@@ -12,6 +11,9 @@ static void checkStickerPlacement(const Image& sticker, const Image& sheet, cons
     for (size_t y = 0; y < sticker.height(); ++y) {
       const HSLAPixel &stickerPixel = sticker.getPixel(x, y);
       const HSLAPixel &sheetPixel = sheet.getPixel(x + xOffset, y + yOffset);
+      if(!(stickerPixel.a == 1 ? stickerPixel == sheetPixel : true)){
+	 std::cout << x << " " << y << " " << (stickerPixel.a == 1) << " " << (stickerPixel == sheetPixel);
+      }
       REQUIRE( (stickerPixel.a == 1 ? stickerPixel == sheetPixel : true) );
     }
   }
@@ -23,7 +25,7 @@ TEST_CASE("A basic StickerSheet works", "[weight=5][part=2][timeout=30000][valgr
 
   StickerSheet sheet(alma, 5);
   sheet.addSticker(i, 20, 200);
-
+  
   Image expected;
   expected.readFromFile("tests/expected.png");
 
@@ -39,7 +41,7 @@ TEST_CASE("StickerSheet::changeMaxStickers() does not discard stickers when resi
   sheet.addSticker(i, 20, 200);
 
   sheet.changeMaxStickers(7);
-
+  
   Image expected;
   expected.readFromFile("tests/expected.png");
 
@@ -52,9 +54,9 @@ TEST_CASE("StickerSheet::changeMaxStickers() does not discard original stickers 
 
   StickerSheet sheet(alma, 5);
   sheet.addSticker(i, 20, 200);
-
+  
   sheet.changeMaxStickers(3);
-
+  
   Image expected;
   expected.readFromFile("tests/expected.png");
 
@@ -70,7 +72,7 @@ TEST_CASE("StickerSheet::changeMaxStickers() can increase the number of stickers
 
   sheet.changeMaxStickers(2);
   sheet.addSticker(i, 40, 200);
-
+  
   Image expected;
   expected.readFromFile("tests/expected-2.png");
 
@@ -87,7 +89,7 @@ TEST_CASE("StickerSheet::changeMaxStickers() discards stickers beyond the end of
   sheet.addSticker(i, 40, 200);
   sheet.addSticker(i, 60, 200);
   sheet.changeMaxStickers(1);
-
+  
   REQUIRE( sheet.render() == expected );
 }
 
@@ -276,11 +278,11 @@ TEST_CASE("A Stickersheet with stickers placed beyond base image boundaries work
 
   StickerSheet sheet(alma, 5);
 
-   **
+   /**
    * For testing deep copy of base image
    * The {...} are used for a block statement
    * and are intentional
-   *
+   */
   {
     Image almaDuplicate = alma;
 
@@ -296,21 +298,21 @@ TEST_CASE("A Stickersheet with stickers placed beyond base image boundaries work
   sheet.changeMaxStickers(4);
 
   const Image &renderXBound = sheet.render();
-
+   
   REQUIRE( renderXBound.width() == i.width() + 800 );
   REQUIRE( renderXBound.height() == alma.height() );
 
   checkStickerPlacement(i, renderXBound, 800, 200);
 
   sheet.removeSticker(0);
-
+  
   REQUIRE( sheet.render() == alma );
 
   sheet.addSticker(i, 20, 500);
   sheet.changeMaxStickers(1);
 
   const Image &renderYBound = sheet.render();
-
+  
   REQUIRE( renderYBound.width() == alma.width() );
   REQUIRE( renderYBound.height() == i.height() + 500 );
 
@@ -318,9 +320,9 @@ TEST_CASE("A Stickersheet with stickers placed beyond base image boundaries work
 
   sheet.removeSticker(0);
   sheet.changeMaxStickers(2);
-
+  
   REQUIRE( sheet.render() == alma );
-
+  
   sheet.addSticker(i, 800, 200);
   sheet.addSticker(i, 20, 500);
 
@@ -330,7 +332,6 @@ TEST_CASE("A Stickersheet with stickers placed beyond base image boundaries work
   checkStickerPlacement(i, renderXYBound, 20, 500);
 
   sheet.changeMaxStickers(0);
-
+  
   REQUIRE( sheet.render() == alma );
 }
-*/

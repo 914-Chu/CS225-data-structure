@@ -8,7 +8,9 @@
 
 class Image : public cs225::PNG {
     public:
-        Image(){};
+        Image();
+	Image(unsigned width_, unsigned height_);
+	Image(const Image& other);
 	~Image(){};
 	
 	void darken();
@@ -24,6 +26,11 @@ class Image : public cs225::PNG {
 	void saturate(double amount);
 	void scale(double factor);
 	void scale(unsigned w, unsigned h);
+        void setCor(unsigned x, unsigned y);	
+    	unsigned getX();
+	unsigned getY();
     private:
 	bool closeToOrg(double degree);
+	unsigned x;
+	unsigned y;
 };
