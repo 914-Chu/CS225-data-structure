@@ -103,24 +103,24 @@ void scramble(queue<T>& q)
     
     while(count != 0 && !q.empty()){
         
-        int min = (count < size) ? count : size;
+        int actual = (count < size) ? count : size;
         if(size % 2 != 0){
-		for(int i = 0; i < min; i++){
+		for(int i = 0; i < actual; i++){
 			T temp = q.front();
 			q.pop();
 			q.push(temp);
 		}
 	}else if(size % 2 == 0) {
-		for(int i = 0; i < min; i++){
+		for(int i = 0; i < actual; i++){
 			s.push(q.front());
 			q.pop();
 		}
-		for(int i = 0; i < min; i++){
+		for(int i = 0; i < actual; i++){
 			q.push(s.top());
 			s.pop();
 		}
 	} 	
-	count -= min;
+	count -= actual;
 	size++;
     }
     
