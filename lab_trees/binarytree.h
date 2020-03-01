@@ -158,7 +158,18 @@ class BinaryTree
          *  as examples.
          */
 
-        /**
+	/**
+	 * Private helper function for mirror()
+	 * @param subRoot current node in recursion
+	 */
+        void mirror(Node*& subRoot);
+
+	/**
+	 * Private helper funciton for isOrderedRecursive()
+	 **/
+	bool isOrderedRecursive(Node* subRoot, Node*& pre) const;
+        
+	/**
          * Private helper function for the public height function.
          * @param subRoot The current node in the recursion
          * @return The height of the subtree

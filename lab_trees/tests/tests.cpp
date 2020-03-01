@@ -127,13 +127,13 @@ TEST_CASE("test_isOrderedRecursive", "[weight=10]"){
 
     BinaryTree<int> tree2;
     genIsOrderedTree(tree2);
-
+    
     REQUIRE(tree2.isOrderedRecursive() == true);
 }
 
 TEST_CASE("test_isOrderedIterative", "[weight=10]"){
     BinaryTree<int> treeLeft(genNonIsOrderedTreeLeft());
-
+   
     REQUIRE(treeLeft.isOrderedIterative() == false);
 
     BinaryTree<int> treeRight(genNonIsOrderedTreeRight());
@@ -142,7 +142,7 @@ TEST_CASE("test_isOrderedIterative", "[weight=10]"){
 
     BinaryTree<int> tree2;
     genIsOrderedTree(tree2);
-
+   
     REQUIRE(tree2.isOrderedIterative() == true);
 }
 
