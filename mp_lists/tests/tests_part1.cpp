@@ -37,20 +37,15 @@ TEST_CASE("List::insert contents", "[weight=4][part=1][valgrind]") {
     List<int> list;
     
     list.insertBack(3);
-    std::cout << "b3" << std::endl;
     list.insertBack(2);
-    std::cout << "b2" << std::endl;
     list.insertBack(1);
-    std::cout << "b1" << std::endl;
     list.insertFront(3);
-    std::cout << "f3" << std::endl;
     list.insertFront(2);
-    std::cout << "f2" << std::endl;
     list.insertFront(1);
-    std::cout << "f1" << std::endl;
+
     stringstream s;
     list.print(s);
-   // std::cout << "print" << std::endl;
+  
     REQUIRE( "< 1 2 3 3 2 1 >" == s.str() );
 }
 
@@ -86,15 +81,11 @@ TEST_CASE("List::triplerotate simple", "[weight=10][part=1][valgrind]") {
 
 TEST_CASE("List::split simple", "[weight=5][part=1][valgrind]") {
     List<int> list;
-    std::cout << "create" << std::endl;
+    
     list.insertBack(1);
-    std::cout << "b1" << std::endl;
     list.insertBack(2);
-    std::cout << "b2" << std::endl;
     list.insertBack(3);
-    std::cout << "b3" << std::endl;
     list.insertBack(4);
-    std::cout << "b4" << std::endl;
     List<int> slist = list.split(2);
     std::cout << "split" << std::endl;
     stringstream s1, s2;
