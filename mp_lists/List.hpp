@@ -8,6 +8,7 @@ List<T>::List() {
   // @TODO: graded in MP3.1
     ListNode* head_ = NULL;
     ListNode* tail_ = NULL;
+    length_ = 0;
 }
 
 /**
@@ -17,7 +18,7 @@ List<T>::List() {
 template <typename T>
 typename List<T>::ListIterator List<T>::begin() const {
   // @TODO: graded in MP3.1
-  return List<T>::ListIterator(NULL);
+  return List<T>::ListIterator(head_);
 }
 
 /**
@@ -37,6 +38,14 @@ typename List<T>::ListIterator List<T>::end() const {
 template <typename T>
 void List<T>::_destroy() {
   /// @todo Graded in MP3.1
+  while(head_ != NULL) {
+      ListNode* temp = head_;
+      head_ = head_->next;
+      delete temp;
+  }
+  head_ = NULL;
+  tail_ = NULL;
+  length_ = 0;
 }
 
 /**
@@ -48,18 +57,12 @@ void List<T>::_destroy() {
 template <typename T>
 void List<T>::insertFront(T const & ndata) {
   /// @todo Graded in MP3.1
-  ListNode * newNode = new ListNode(ndata);
+  ListNode* newNode = new ListNode(ndata);
   newNode -> next = head_;
   newNode -> prev = NULL;
-  
-  if (head_ != NULL) {
-    head_ -> prev = newNode;
-  }
-  if (tail_ == NULL) {
-    tail_ = newNode;
-  }
-  
-
+  if (head_ != NULL) head_ -> prev = newNode;
+  if (tail_ == NULL) tail_ = newNode;
+  head_ = newNode;
   length_++;
 
 }
@@ -73,6 +76,13 @@ void List<T>::insertFront(T const & ndata) {
 template <typename T>
 void List<T>::insertBack(const T & ndata) {
   /// @todo Graded in MP3.1
+  ListNode* newNode = new ListNode(ndata);
+  newNode -> next = NULL;
+  newNode -> prev = tail_;
+  if (head_ == NULL) head_ = newNode;
+  if (tail_ != NULL) tail_ -> next = newNode;
+  tail_ = newNode;
+  length_++;
 }
 
 /**
@@ -94,6 +104,9 @@ void List<T>::insertBack(const T & ndata) {
 template <typename T>
 typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
   /// @todo Graded in MP3.1
+  if(start == NULL || length_ < splitPoint) return NULL;
+  if(splitPoint == 0) return start;
+  
   ListNode * curr = start;
 
   for (int i = 0; i < splitPoint || curr != NULL; i++) {
@@ -102,7 +115,9 @@ typename List<T>::ListNode * List<T>::split(ListNode * start, int splitPoint) {
 
   if (curr != NULL) {
       curr->prev->next = NULL;
+      tail_ = curr -> prev;
       curr->prev = NULL;
+      return curr;
   }
 
   return NULL;
