@@ -6,11 +6,18 @@
 
 using namespace cs225;
 
+MyColorPicker::MyColorPicker(): hue(216), sat(0), lu(0), al(0){
+}
+
 /**
  * Picks the color for pixel (x, y).
  * Using your own algorithm
  */
 HSLAPixel MyColorPicker::getColor(unsigned x, unsigned y) {
   /* @todo [Part 3] */
-  return HSLAPixel();
+  HSLAPixel pixel(hue,sat,lu,al);
+  sat += 10;
+  lu += 10;
+  al += 10;
+  return pixel;
 }

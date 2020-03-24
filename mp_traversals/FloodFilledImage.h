@@ -7,7 +7,7 @@
 #include "cs225/PNG.h"
 #include <list>
 #include <iostream>
-
+#include <vector>
 #include "colorPicker/ColorPicker.h"
 #include "imageTraversal/ImageTraversal.h"
 
@@ -26,9 +26,11 @@ public:
   FloodFilledImage(const PNG & png);
   void addFloodFill(ImageTraversal & traversal, ColorPicker & colorPicker);
   Animation animate(unsigned frameInterval) const;
-
+  ~FloodFilledImage();
 private:
 	/** @todo [Part 2] */
 	/** add private members here*/
-
+  std::vector<ImageTraversal*> traversal_;
+  std::vector<ColorPicker*> color_;
+  PNG* pic_;
 };
